@@ -16,6 +16,40 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+                <div>
+                    <x-nav-link :href="route('events.index')" :active="request()->routeIs('events.*')">
+                        Events
+                    </x-nav-link>
+                </div>
+                <div>
+                    <x-nav-link :href="route('faq.index')" :active="request()->routeIs('faq.*')">
+                        FAQ
+                    </x-nav-link>
+                </div>
+                <div>
+                    <x-nav-link :href="route('contact.create')" :active="request()->routeIs('contact.*')">
+                        Contact
+                    </x-nav-link>
+                </div>
+
+                @if(auth()->user()?->is_admin)
+                <div>
+                    <x-nav-link :href="route('admin.events.index')" :active="request()->routeIs('admin.events.*')">
+                        Admin: Events
+                    </x-nav-link>
+                </div>
+                <div>
+                    <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                        Admin: Users
+                    </x-nav-link>
+                </div>
+                <div>
+                    <x-nav-link :href="route('admin.faq.index')" :active="request()->routeIs('admin.faq.*')">
+                        Admin: FAQ
+                    </x-nav-link>
+                </div>
+                @endif
+
             </div>
 
             <!-- Settings Dropdown -->

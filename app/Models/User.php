@@ -51,8 +51,15 @@ class User extends Authenticatable
         ];
     }
 
-    public function performances()
+    // als artiest op events:
+    public function performerEvents()
     {
-        return $this->belongsToMany(\App\Models\Performance::class)->withTimestamps();
+        return $this->belongsToMany(\App\Models\Event::class, 'event_performer');
+    }
+
+    // als bezoeker ingeschreven op events:
+    public function events()
+    {
+        return $this->belongsToMany(\App\Models\Event::class, 'event_registrations')->withTimestamps();
     }
 }
