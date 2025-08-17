@@ -21,6 +21,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
+        'username',
+        'birthday',
+        'avatar_path',
+        'about',
     ];
 
     /**
@@ -44,5 +49,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function performances()
+    {
+        return $this->belongsToMany(\App\Models\Performance::class)->withTimestamps();
     }
 }

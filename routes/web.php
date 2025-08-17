@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PublicProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,5 +21,8 @@ Route::middleware('auth')->group(function () {
 Route::prefix('admin')->middleware(['auth','admin'])->group(function () {
     Route::view('/', 'admin.dashboard')->name('admin.dashboard');
 });
+
+Route::get('/users/{user}', [PublicProfileController::class, 'show'])
+    ->name('users.show');
 
 require __DIR__.'/auth.php';
