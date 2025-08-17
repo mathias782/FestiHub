@@ -35,7 +35,7 @@ class AdminUserController extends Controller
             'is_admin'  => $data['is_admin'] ?? false,
         ]);
 
-        return back()->with('status', 'Gebruiker aangemaakt: '.$u->email);
+        return back()->with('status', 'User created.'.$u->email);
     }
 
     public function update(Request $request, User $user)
@@ -43,6 +43,6 @@ class AdminUserController extends Controller
         $request->validate(['is_admin' => 'required|boolean']);
         $user->is_admin = (bool) $request->boolean('is_admin');
         $user->save();
-        return back()->with('status', 'Rol bijgewerkt.');
+        return back()->with('status', 'Role updated.');
     }
 }
