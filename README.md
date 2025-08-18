@@ -96,4 +96,5 @@ Email: admin@ehb.be — Password: Password!321
 ## Sources
 
 [Laravel Docs](https://laravel.com/)
-[Laravel Tutorial for](https://www.youtube.com/watch?v=cDEVWbz2PpQ)
+
+[Laravel Tutorial for beginners](https://www.youtube.com/watch?v=cDEVWbz2PpQ)
