@@ -19,10 +19,17 @@ class EventController extends Controller
         return view('events.index', compact('events'));
     }
     
-
-    public function show(Event $event)
+    public function show(\App\Models\Event $event)
     {
-        $event->load(['performers','attendees']);
-        return view('events.show', compact('event'));
+        $event->load([
+            'performers:id,username,name',
+            'attendees:id',
+        ]);
+    
+        $isGoing = auth()->check()
+            ? $event->attendees->contains(auth()->id())
+            : false;
+    
+        return view('events.show', compact('event', 'isGoing'));
     }
 }

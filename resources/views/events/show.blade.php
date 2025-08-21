@@ -1,46 +1,53 @@
 <x-app-layout>
-    <x-slot name="header"><h2 class="text-xl font-semibold leading-tight text-gray-800">{{ $event->title }}</h2></x-slot>
+    <x-slot name="header">
+        <h2 class="text-xl font-semibold text-gray-800">{{ $event->title }}</h2>
+    </x-slot>
 
-    <div class="py-8">
-        <div class="mx-auto max-w-3xl px-4 space-y-4">
-            <p class="text-gray-600">
+    <div class="py-6">
+        <div class="max-w-4xl mx-auto px-4 space-y-4">
+
+            <div class="text-sm text-gray-500">
                 {{ $event->starts_at->format('d/m/Y H:i') }}
-                @if($event->ends_at)– {{ $event->ends_at->format('H:i') }} @endif
-                @if($event->location) • {{ $event->location }} @endif
-            </p>
-
-            @if($event->image_path)
-                <img src="{{ asset('storage/'.$event->image_path) }}" class="rounded" alt="">
-            @endif
+                @if($event->ends_at) — {{ $event->ends_at->format('d/m/Y H:i') }} @endif
+                @if($event->location) · {{ $event->location }} @endif
+            </div>
 
             @if($event->description)
-                <div class="prose max-w-none">{!! nl2br(e($event->description)) !!}</div>
+                <p class="text-gray-700 whitespace-pre-line">{{ $event->description }}</p>
             @endif
 
-            <p class="text-sm text-gray-500">Ingeschreven: {{ $event->attendees->count() }} / {{ $event->capacity }}</p>
+            <div class="text-sm text-gray-600">
+                Registered: {{ $event->attendees()->count() }} / {{ $event->capacity }}
+            </div>
 
-            @auth
-                @if(!$event->attendees->contains(auth()->id()))
-                    <form method="POST" action="{{ route('events.register', $event) }}">
-                        @csrf
-                        <x-primary-button>Inschrijven</x-primary-button>
-                    </form>
+            {{-- Register / Unregister --}}
+            <div class="mt-2">
+                @auth
+                    @if(!$isGoing)
+                        <form method="POST" action="{{ route('events.register', $event) }}" class="inline">
+                            @csrf
+                            <x-primary-button>Register</x-primary-button>
+                        </form>
+                    @else
+                        <form method="POST" action="{{ route('events.unregister', $event) }}" class="inline">
+                            @csrf
+                            @method('DELETE')
+                            <x-secondary-button type="submit">Unregister</x-secondary-button>
+                        </form>
+                    @endif
                 @else
-                    <form method="POST" action="{{ route('events.unregister', $event) }}">
-                        @csrf @method('DELETE')
-                        <x-secondary-button>Uitschrijven</x-secondary-button>
-                    </form>
-                @endif
-            @endauth
+                    <a href="{{ route('login') }}" class="text-sm text-indigo-600 hover:underline">
+                        Log in to register
+                    </a>
+                @endauth
+            </div>
 
             @if($event->performers->count())
-                <div class="pt-4">
-                    <h3 class="font-semibold">Artiesten</h3>
-                    <ul class="list-disc ml-5">
-                        @foreach($event->performers as $p)
-                            <li>{{ $p->username ?? $p->name }}</li>
-                        @endforeach
-                    </ul>
+                <div class="pt-6">
+                    <h3 class="font-semibold text-gray-900 mb-1">Performers</h3>
+                    <div class="text-gray-800">
+                        {{ $event->performers->map(fn($u) => $u->username ?? $u->name)->implode(', ') }}
+                    </div>
                 </div>
             @endif
         </div>
