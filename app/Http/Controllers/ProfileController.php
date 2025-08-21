@@ -11,24 +11,19 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
+        $user = $request->user()->load([
+            'performerEvents' => fn ($q) => $q->orderBy('starts_at'),
+            'events'          => fn ($q) => $q->orderBy('starts_at'),
         ]);
+
+        return view('profile.edit', ['user' => $user]);
     }
 
-    /**
-     * Update the user's profile information.
-     */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $data = $request->validated();
-
-        // Avatar wegschrijven naar 'public' disk (storage/app/public)
         if ($request->hasFile('avatar')) {
             $data['avatar_path'] = $request->file('avatar')->store('avatars', 'public');
         }
@@ -45,9 +40,6 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
-    /**
-     * Delete the user's account.
-     */
     public function destroy(Request $request): RedirectResponse
     {
         $request->validateWithBag('userDeletion', [

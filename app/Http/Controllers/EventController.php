@@ -7,14 +7,18 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $events = Event::with(['performers','attendees'])
-            ->orderBy('starts_at')
-            ->paginate(12);
-
+        $events = \App\Models\Event::with([
+            'performers:id,username,name',
+            'attendees:id',
+        ])
+        ->orderBy('starts_at')
+        ->get();
+    
         return view('events.index', compact('events'));
     }
+    
 
     public function show(Event $event)
     {

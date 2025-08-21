@@ -19,19 +19,6 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-Route::prefix('admin')->middleware(['auth','admin'])->group(function () {
-    Route::view('/', 'admin.dashboard')->name('admin.dashboard');
-});
-
-Route::get('/users/{user}', [PublicProfileController::class, 'show'])
-    ->name('users.show');
-
 // Publiek
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
@@ -39,12 +26,20 @@ Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
 Route::get('/contact', [ContactController::class, 'create'])->name('contact.create');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
-// Inschrijven/uitschrijven (auth)
-Route::post('/events/{event}/register', [EventRegistrationController::class, 'store'])->name('events.register');
-Route::delete('/events/{event}/register', [EventRegistrationController::class, 'destroy'])->name('events.unregister');
+// Users
+Route::middleware('auth')->group(function () {
+    Route::get('/users', [PublicProfileController::class, 'index'])->name('users.index');
+    Route::get('/users/{user}', [PublicProfileController::class, 'show'])->name('users.show');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/events/{event}/register', [EventRegistrationController::class, 'store'])->name('events.register');
+    Route::delete('/events/{event}/register', [EventRegistrationController::class, 'destroy'])->name('events.unregister');
+});
 
 // Admin
 Route::prefix('admin')->middleware(['auth','admin'])->group(function () {
+    Route::view('/', 'admin.dashboard')->name('admin.dashboard');
     Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users.index');
     Route::post('/users', [AdminUserController::class, 'store'])->name('admin.users.store');
     Route::put('/users/{user}', [AdminUserController::class, 'update'])->name('admin.users.update');

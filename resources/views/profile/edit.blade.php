@@ -70,6 +70,56 @@
                         @endif
                     </div>
                 </form>
+
+                <hr class="mt-12 mb-8 border-t-2 border-gray-300">
+
+                <div class="space-y-10">
+                    {{-- PERFORMING AT --}}
+                    <section>
+                    <h3 class="mb-3 text-lg font-semibold text-gray-900">Performing at</h3>
+                        @if($user->performerEvents->isEmpty())
+                            <p class="text-gray-500">No performances.</p>
+                        @else
+                            <ul class="list-disc list-inside space-y-3">
+                                @foreach($user->performerEvents as $e)
+                                    <li>
+                                        <a href="{{ route('events.show', $e) }}"
+                                        class="font-medium text-gray-900 hover:underline">
+                                            {{ $e->title }}
+                                        </a>
+                                        <div class="text-sm text-gray-500">
+                                            {{ $e->starts_at->format('d/m/Y H:i') }}
+                                            @if($e->ends_at) — {{ $e->ends_at->format('d/m/Y H:i') }} @endif
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </section>
+
+                    {{-- GOING TO --}}
+                    <section>
+                    <h3 class="mb-3 text-lg font-semibold text-gray-900">Going to</h3>
+                        @if($user->events->isEmpty())
+                            <p class="text-gray-500">No registrations.</p>
+                        @else
+                            <ul class="list-disc list-inside space-y-3">
+                                @foreach($user->events as $e)
+                                    <li>
+                                        <a href="{{ route('events.show', $e) }}"
+                                        class="font-medium text-gray-900 hover:underline">
+                                            {{ $e->title }}
+                                        </a>
+                                        <div class="text-sm text-gray-500">
+                                            {{ $e->starts_at->format('d/m/Y H:i') }}
+                                            @if($e->ends_at) — {{ $e->ends_at->format('d/m/Y H:i') }} @endif
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </section>
+                </div>
             </div>
 
             {{-- (optioneel) laat de Breeze-secties staan als je ze had: --}}

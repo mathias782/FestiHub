@@ -21,6 +21,9 @@
                     <x-nav-link :href="route('contact.create')" :active="request()->routeIs('contact.*')">
                         Contact
                     </x-nav-link>
+                    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+                        Users
+                    </x-nav-link>
 
                     @if(auth()->user()?->is_admin)
                         <x-nav-link :href="route('admin.events.index')" :active="request()->routeIs('admin.events.*')">
@@ -107,6 +110,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('contact.create')" :active="request()->routeIs('contact.*')">
                 Contact
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+                Users
             </x-responsive-nav-link>
 
             @if(auth()->user()?->is_admin)

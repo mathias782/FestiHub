@@ -9,33 +9,29 @@ class EventRegistrationController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth']);
     }
 
     public function store(Request $request, Event $event)
     {
-        $user = $request->user();
+        $userId = $request->user()->id;
 
-        if ($event->attendees()->where('user_id', $user->id)->exists()) {
-            return back()->with('status', 'Je bent al ingeschreven voor dit event.');
+        if ($event->attendees()->where('user_id', $userId)->exists()) {
+            return back()->with('status', 'You are already registered.');
         }
 
         if ($event->attendees()->count() >= $event->capacity) {
-            return back()->withErrors(['capacity' => 'Jammer, dit event zit vol.']);
+            return back()->with('status', 'Event is full.');
         }
 
-        $event->attendees()->attach($user->id);
-
-        return back()->with('status', 'Je inschrijving is bevestigd.');
+        $event->attendees()->attach($userId);
+        return back()->with('status', 'Registered.');
     }
 
     public function destroy(Request $request, Event $event)
     {
-        $request->user()->loadMissing('events'); // niet nodig, maar kan
-        $request->user()->belongsToMany(\App\Models\Event::class, 'event_registrations')->detach($event->id);
-
-        // of: $request->user()->events()->detach($event->id); als je een relatie events() op User zet.
-
-        return back()->with('status', 'Je bent uitgeschreven.');
+        $userId = $request->user()->id;
+        $event->attendees()->detach($userId);
+        return back()->with('status', 'Unregistered.');
     }
 }
