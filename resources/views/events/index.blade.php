@@ -8,28 +8,46 @@
 
             @forelse($events as $event)
                 <div class="bg-white rounded-xl p-4 shadow-sm ring-1 ring-gray-100 flex items-center justify-between">
-                    <div>
-                        <a href="{{ route('events.show', $event) }}" class="text-lg font-semibold text-gray-900">
-                            {{ $event->title }}
-                            @if($event->location)
-                                — <span class="text-gray-500">{{ $event->location }}</span>
+                    {{-- LINKS: thumbnail + tekst --}}
+                    <div class="flex items-center gap-3">
+                        {{-- Vaste thumbnail-box (voorkomt enorme afbeeldingen) --}}
+                        <div class="h-12 w-20 overflow-hidden rounded ring-1 ring-gray-200 bg-gray-50 shrink-0">
+                            @if($event->image_path)
+                                <img
+                                    src="{{ asset('storage/'.$event->image_path) }}"
+                                    class="h-full w-full object-cover"
+                                    alt="event image"
+                                >
+                            @else
+                                <div class="grid h-full w-full place-items-center text-[10px] text-gray-400">
+                                    no image
+                                </div>
                             @endif
-                        </a>
-
-                        <div class="text-sm text-gray-500">
-                            {{ $event->starts_at->format('d/m/Y H:i') }}
-                            @if($event->ends_at)
-                                — {{ $event->ends_at->format('d/m/Y H:i') }}
-                            @endif
-                            · Spots left: {{ $event->spotsLeft() }}
                         </div>
 
-                        @if($event->performers->count())
-                            <div class="text-sm text-gray-500 mt-1">
-                                Performers:
-                                {{ $event->performers->map(fn($u) => $u->username ?? $u->name)->implode(', ') }}
+                        <div>
+                            <a href="{{ route('events.show', $event) }}" class="text-lg font-semibold text-gray-900">
+                                {{ $event->title }}
+                                @if($event->location)
+                                    — <span class="text-gray-500">{{ $event->location }}</span>
+                                @endif
+                            </a>
+
+                            <div class="text-sm text-gray-500">
+                                {{ $event->starts_at->format('d/m/Y H:i') }}
+                                @if($event->ends_at)
+                                    — {{ $event->ends_at->format('d/m/Y H:i') }}
+                                @endif
+                                · Spots left: {{ $event->spotsLeft() }}
                             </div>
-                        @endif
+
+                            @if($event->performers->count())
+                                <div class="text-sm text-gray-500 mt-1">
+                                    Performers:
+                                    {{ $event->performers->map(fn($u) => $u->username ?? $u->name)->implode(', ') }}
+                                </div>
+                            @endif
+                        </div>
                     </div>
 
                     <div class="ml-4">

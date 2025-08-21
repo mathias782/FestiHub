@@ -5,6 +5,17 @@
 
     <div class="py-6">
         <div class="max-w-4xl mx-auto px-4 space-y-4">
+            @if($event->image_path)
+            <div class="relative w-full overflow-hidden rounded ring-1 ring-gray-200 mb-2" style="aspect-ratio: 16/5;">
+                <img src="{{ asset('storage/'.$event->image_path) }}"
+                    alt="{{ $event->title }} poster"
+                    class="absolute inset-0 w-full h-full object-cover object-center">
+            </div>
+            @else
+            <div class="w-full rounded bg-gray-100 ring-1 ring-gray-200 grid place-items-center text-gray-400 mb-2" style="aspect-ratio: 16/5;">
+                No image
+            </div>
+            @endif
 
             <div class="text-sm text-gray-500">
                 {{ $event->starts_at->format('d/m/Y H:i') }}
