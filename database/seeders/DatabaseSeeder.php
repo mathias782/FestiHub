@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             DemoUsersSeeder::class,
             FaqSeeder::class,
             EventSeeder::class,
+            DefaultUserAvatarsSeeder::class,
         ]);
     }
 }
