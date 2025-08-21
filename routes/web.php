@@ -7,6 +7,7 @@ use App\Http\Controllers\EventRegistrationController;
 use App\Http\Controllers\AdminEventController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\PublicFaqQuestionController;
 use App\Http\Controllers\AdminFaqController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/events/{event}/register', [EventRegistrationController::class, 'store'])->name('events.register');
     Route::delete('/events/{event}/register', [EventRegistrationController::class, 'destroy'])->name('events.unregister');
+    Route::post('/faq/categories/{category}/questions', [PublicFaqQuestionController::class, 'store'])->name('faq.categories.questions.store');
 });
 
 // Admin

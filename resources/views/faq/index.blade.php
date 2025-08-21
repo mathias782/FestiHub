@@ -12,6 +12,15 @@
                             <dd class="text-gray-700">{{ $q->answer }}</dd>
                         @endforeach
                     </dl>
+                    @auth
+                        <form method="POST" action="{{ route('faq.categories.questions.store', $cat) }}" class="mt-4 flex gap-2">
+                            @csrf
+                            <input name="question" type="text" required maxlength="500"
+                                placeholder="Ask a question about {{ $cat->name }}…"
+                                class="flex-1 rounded border-gray-300" />
+                            <x-primary-button>Submit</x-primary-button>
+                        </form>
+                    @endauth
                 </section>
             @endforeach
         </div>
