@@ -36,6 +36,7 @@ FestiHub is a Laravel 11 web app where visitors discover music events, view publ
 
 **FAQ**
 - View grouped questions & answers
+- Submit a question to an existing category
 
 **Contact**
 - Send message via contact form (email to admin)
