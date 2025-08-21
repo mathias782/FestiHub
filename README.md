@@ -68,21 +68,18 @@ FestiHub is a Laravel 11 web app where visitors discover music events, view publ
    cp .env.example .env
    php artisan key:generate
 
-Configure DB (DB_*) and Mail (MAIL_*).
+Configure DB.
 
 4. **Build assets**
    ```bash
    npm run build
 
-4. **Database**
+5. **Database**
    ```bash
    php artisan migrate:fresh --seed
    php artisan storage:link
 
-Default admin:
-Email: admin@ehb.be — Password: Password!321
-
-4. **Run**
+6. **Run**
    ```bash
    php artisan serve
 
