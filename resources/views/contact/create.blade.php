@@ -9,7 +9,7 @@
             <form method="POST" action="{{ route('contact.store') }}" class="space-y-4">
                 @csrf
                 <div>
-                    <x-input-label for="name" value="Naam" />
+                    <x-input-label for="name" value="Name" />
                     <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" required />
                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>
@@ -19,16 +19,16 @@
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
                 <div>
-                    <x-input-label for="subject" value="Onderwerp" />
+                    <x-input-label for="subject" value="Subject" />
                     <x-text-input id="subject" name="subject" type="text" class="mt-1 block w-full" />
                     <x-input-error :messages="$errors->get('subject')" class="mt-2" />
                 </div>
                 <div>
-                    <x-input-label for="message" value="Bericht" />
+                    <x-input-label for="message" value="Message" />
                     <textarea id="message" name="message" rows="5" class="mt-1 block w-full border-gray-300 rounded" required></textarea>
                     <x-input-error :messages="$errors->get('message')" class="mt-2" />
                 </div>
-                <x-primary-button>Versturen</x-primary-button>
+                <x-primary-button>Send</x-primary-button>
             </form>
         </div>
     </div>

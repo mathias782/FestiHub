@@ -55,10 +55,12 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(function () {
     Route::get('/events/{event}/attendees', [AdminEventController::class, 'attendees'])->name('admin.events.attendees');
 
     // FAQ beheer
-    Route::get('/faq', [AdminFaqController::class, 'index'])->name('admin.faq.index');
-    Route::post('/faq/categories', [AdminFaqController::class, 'storeCategory'])->name('admin.faq.categories.store');
+    Route::get   ('/faq', [AdminFaqController::class, 'index'])->name('admin.faq.index');
+    Route::post  ('/faq/categories', [AdminFaqController::class, 'storeCategory'])->name('admin.faq.categories.store');
+    Route::post  ('/faq/items', [AdminFaqController::class, 'storeItem'])->name('admin.faq.items.store');
+    Route::patch ('/faq/categories/{category}', [AdminFaqController::class, 'updateCategory'])->name('admin.faq.categories.update');
+    Route::patch ('/faq/items/{item}', [AdminFaqController::class, 'updateItem'])->name('admin.faq.items.update');
     Route::delete('/faq/categories/{category}', [AdminFaqController::class, 'destroyCategory'])->name('admin.faq.categories.destroy');
-    Route::post('/faq/items', [AdminFaqController::class, 'storeItem'])->name('admin.faq.items.store');
     Route::delete('/faq/items/{item}', [AdminFaqController::class, 'destroyItem'])->name('admin.faq.items.destroy');
 });
 
