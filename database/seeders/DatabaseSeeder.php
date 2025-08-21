@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             FaqSeeder::class,
             EventSeeder::class,
             DefaultUserAvatarsSeeder::class,
+            DefaultEventImagesSeeder::class,
         ]);
     }
 }
